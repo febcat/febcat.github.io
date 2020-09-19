@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+    
+    <!-- title -->
+
+
+
+
+<!-- keywords -->
+
+
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" >
+    <meta name="author" content="Febcat">
+    <meta name="renderer" content="webkit">
+    <meta name="copyright" content="Febcat">
+    
+    <meta name="keywords" content="hexo,hexo-theme,hexo-blog">
+    
+    <meta name="description" content="">
+    <meta http-equiv="Cache-control" content="no-cache">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <title>v-model $attrs $listeners · fi3ework&#39;s Studio</title>
+    <style type="text/css">
+    @font-face {
+        font-family: 'Oswald-Regular';
+        src: url("/font/Oswald-Regular.ttf");
+    }
+
+    body {
+        margin: 0;
+    }
+
+    header,
+    footer,
+    .back-top,
+    .sidebar,
+    .container,
+    .site-intro-meta,
+    .toc-wrapper {
+        display: none;
+    }
+
+    .site-intro {
+        position: relative;
+        z-index: 3;
+        width: 100%;
+        /* height: 50vh; */
+        overflow: hidden;
+    }
+
+    .site-intro-placeholder {
+        position: absolute;
+        z-index: -2;
+        top: 0;
+        left: 0;
+        width: calc(100% + 300px);
+        height: 100%;
+        background: repeating-linear-gradient(-45deg, #444 0, #444 80px, #333 80px, #333 160px);
+        background-position: center center;
+        transform: translate3d(-226px, 0, 0);
+        animation: gradient-move 2.5s ease-out 0s infinite;
+    }
+
+    @keyframes gradient-move {
+        0% {
+            transform: translate3d(-226px, 0, 0);
+        }
+        100% {
+            transform: translate3d(0, 0, 0);
+        }
+    }
+
+</style>
+
+    <link rel="preload" href= "/css/style.css?v=20180824" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+    <link rel="stylesheet" href= "/css/mobile.css?v=20180824" media="(max-width: 980px)">
+    
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+    
+    <!-- /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+/* This file is meant as a standalone workflow for
+- testing support for link[rel=preload]
+- enabling async CSS loading in browsers that do not support rel=preload
+- applying rel preload css once loaded, whether supported or not.
+*/ -->
+<script>
+(function( w ){
+	"use strict";
+	// rel=preload support test
+	if( !w.loadCSS ){
+		w.loadCSS = function(){};
+	}
+	// define on the loadCSS obj
+	var rp = loadCSS.relpreload = {};
+	// rel=preload feature support test
+	// runs once and returns a function for compat purposes
+	rp.support = (function(){
+		var ret;
+		try {
+			ret = w.document.createElement( "link" ).relList.supports( "preload" );
+		} catch (e) {
+			ret = false;
+		}
+		return function(){
+			return ret;
+		};
+	})();
+
+	// if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+	// then change that media back to its intended value on load
+	rp.bindMediaToggle = function( link ){
+		// remember existing media attr for ultimate state, or default to 'all'
+		var finalMedia = link.media || "all";
+
+		function enableStylesheet(){
+			link.media = finalMedia;
+		}
+
+		// bind load handlers to enable media
+		if( link.addEventListener ){
+			link.addEventListener( "load", enableStylesheet );
+		} else if( link.attachEvent ){
+			link.attachEvent( "onload", enableStylesheet );
+		}
+
+		// Set rel and non-applicable media type to start an async request
+		// note: timeout allows this to happen async to let rendering continue in IE
+		setTimeout(function(){
+			link.rel = "stylesheet";
+			link.media = "only x";
+		});
+		// also enable media after 3 seconds,
+		// which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+		setTimeout( enableStylesheet, 3000 );
+	};
+
+	// loop through link elements in DOM
+	rp.poly = function(){
+		// double check this to prevent external calls from running
+		if( rp.support() ){
+			return;
+		}
+		var links = w.document.getElementsByTagName( "link" );
+		for( var i = 0; i < links.length; i++ ){
+			var link = links[ i ];
+			// qualify links to those with rel=preload and as=style attrs
+			if( link.rel === "preload" && link.getAttribute( "as" ) === "style" && !link.getAttribute( "data-loadcss" ) ){
+				// prevent rerunning on link
+				link.setAttribute( "data-loadcss", true );
+				// bind listeners to toggle media back
+				rp.bindMediaToggle( link );
+			}
+		}
+	};
+
+	// if unsupported, run the polyfill
+	if( !rp.support() ){
+		// run once at least
+		rp.poly();
+
+		// rerun poly on an interval until onload
+		var run = w.setInterval( rp.poly, 500 );
+		if( w.addEventListener ){
+			w.addEventListener( "load", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		} else if( w.attachEvent ){
+			w.attachEvent( "onload", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		}
+	}
+
+
+	// commonjs
+	if( typeof exports !== "undefined" ){
+		exports.loadCSS = loadCSS;
+	}
+	else {
+		w.loadCSS = loadCSS;
+	}
+}( typeof global !== "undefined" ? global : this ) );
+</script>
+
+    <link rel="icon" href= "/assets/favicon.ico" />
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js" as="script" />
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" as="script" />
+    <link rel="preload" href="/scripts/main.js" as="script" />
+    <link rel="preload" as="font" href="/font/Oswald-Regular.ttf" crossorigin>
+    <link rel="preload" as="font" href="https://at.alicdn.com/t/font_327081_1dta1rlogw17zaor.woff" crossorigin>
+    
+    <!-- fancybox -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" defer></script>
+    <!-- 百度统计  -->
+    
+    <!-- 谷歌统计  -->
+    
+</head>
+
+    
+        <body class="post-body">
+    
+    
+<header class="header">
+
+    <div class="read-progress"></div>
+    <div class="header-sidebar-menu">&#xe775;</div>
+    <!-- post页的toggle banner  -->
+    
+    <div class="banner">
+            <div class="blog-title">
+                <a href="/" >fi3ework&#39;s Studio.</a>
+            </div>
+            <div class="post-title">
+                <a href="#" class="post-name">v-model $attrs $listeners</a>
+            </div>
+    </div>
+    
+    <a class="home-link" href=/>fi3ework's Studio.</a>
+</header>
+    <div class="wrapper">
+        <div class="site-intro" style="
+
+
+
+
+
+
+
+height:50vh;
+">
+    
+    <!-- 主页  -->
+    
+    
+    <!-- 404页  -->
+            
+    <div class="site-intro-placeholder"></div>
+    <div class="site-intro-img" style="background-image: url(/intro/post-bg.jpg)"></div>
+    <div class="site-intro-meta">
+        <!-- 标题  -->
+        <h1 class="intro-title">
+            <!-- 主页  -->
+            
+            v-model $attrs $listeners
+            <!-- 404 -->
+            
+        </h1>
+        <!-- 副标题 -->
+        <p class="intro-subtitle">
+            <!-- 主页副标题  -->
+            
+            
+            <!-- 404 -->
+            
+        </p>
+        <!-- 文章页meta -->
+        
+            <div class="post-intros">
+                <!-- 文章页标签  -->
+                
+                    <div class= post-intro-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "Vue">Vue</a>
+    
+</div>
+                
+                
+                    <div class="post-intro-read">
+                        <span>字数统计: <span class="post-count word-count">1.9k</span>阅读时长: <span class="post-count reading-time">8 min</span></span>
+                    </div>
+                
+                <div class="post-intro-meta">
+                    <span class="post-intro-calander iconfont-archer">&#xe676;</span>
+                    <span class="post-intro-time">2019/11/15</span>
+                    
+                    <span id="busuanzi_container_page_pv" class="busuanzi-pv">
+                        <span class="iconfont-archer">&#xe602;</span>
+                        <span id="busuanzi_value_page_pv"></span>
+                    </span>
+                    
+                    <span class="shareWrapper">
+                        <span class="iconfont-archer shareIcon">&#xe71d;</span>
+                        <span class="shareText">Share</span>
+                        <ul class="shareList">
+                            <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
+                                <div class="share-qrcode"></div>
+                            </li>
+                            <li class="iconfont-archer" data-type="weibo">&#xe619;</li>
+                            <li class="iconfont-archer" data-type="qzone">&#xe62e;</li>
+                            <li class="iconfont-archer" data-type="twitter">&#xe634;</li>
+                            <li class="iconfont-archer" data-type="facebook">&#xe67a;</li>
+                        </ul>
+                    </span>
+                </div>
+            </div>
+        
+    </div>
+</div>
+        <script>
+ 
+  // get user agent
+  var browser = {
+    versions: function () {
+      var u = window.navigator.userAgent;
+      return {
+        userAgent: u,
+        trident: u.indexOf('Trident') > -1, //IE内核
+        presto: u.indexOf('Presto') > -1, //opera内核
+        webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+        gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+        mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+        ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+        android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+        iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者安卓QQ浏览器
+        iPad: u.indexOf('iPad') > -1, //是否为iPad
+        webApp: u.indexOf('Safari') == -1, //是否为web应用程序，没有头部与底部
+        weixin: u.indexOf('MicroMessenger') == -1, //是否为微信浏览器
+        uc: u.indexOf('UCBrowser') > -1 //是否为android下的UC浏览器
+      };
+    }()
+  }
+  console.log("userAgent:" + browser.versions.userAgent);
+
+  // callback
+  function fontLoaded() {
+    console.log('font loaded');
+    if (document.getElementsByClassName('site-intro-meta')) {
+      document.getElementsByClassName('intro-title')[0].classList.add('intro-fade-in');
+      document.getElementsByClassName('intro-subtitle')[0].classList.add('intro-fade-in');
+      var postIntros = document.getElementsByClassName('post-intros')[0]
+      if (postIntros) {
+        postIntros.classList.add('post-fade-in');
+      }
+    }
+  }
+
+  // UC不支持跨域，所以直接显示
+  function asyncCb(){
+    if (browser.versions.uc) {
+      console.log("UCBrowser");
+      fontLoaded();
+    } else {
+      WebFont.load({
+        custom: {
+          families: ['Oswald-Regular']
+        },
+        loading: function () {  //所有字体开始加载
+          // console.log('loading');
+        },
+        active: function () {  //所有字体已渲染
+          fontLoaded();
+        },
+        inactive: function () { //字体预加载失败，无效字体或浏览器不支持加载
+          console.log('inactive: timeout');
+          fontLoaded();
+        },
+        timeout: 5000 // Set the timeout to two seconds
+      });
+    }
+  }
+
+  function asyncErr(){
+    console.warn('script load from CDN failed, will load local script')
+  }
+
+  // load webfont-loader async, and add callback function
+  function async(u, cb, err) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (cb) { o.addEventListener('load', function (e) { cb(null, e); }, false); }
+    if (err) { o.addEventListener('error', function (e) { err(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+
+  var asyncLoadWithFallBack = function(arr, success, reject) {
+      var currReject = function(){
+        reject()
+        arr.shift()
+        if(arr.length)
+          async(arr[0], success, currReject)
+        }
+
+      async(arr[0], success, currReject)
+  }
+
+  asyncLoadWithFallBack([
+    "https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js", 
+    "https://cdn.bootcss.com/webfont/1.6.28/webfontloader.js",
+    "/lib/webfontloader.min.js"
+  ], asyncCb, asyncErr)
+</script>
+        <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
+        <div class="container container-unloaded">
+            <main class="main post-page">
+    <article class="article-entry">
+        <h1 id="v-model"><a href="#v-model" class="headerlink" title="v-model"></a><a href="https://cn.vuejs.org/v2/api/#v-model" target="_blank" rel="noopener">v-model</a></h1><blockquote>
+<p>本质上是一种语法糖 :bind=”value” @input=”method”</p>
+</blockquote>
+<blockquote>
+<p><a href="https://codesandbox.io/s/attrslisteners-20jdq" target="_blank" rel="noopener">一些demo</a></p>
+</blockquote>
+<br/>
+
+<h2 id="表单控件上的使用"><a href="#表单控件上的使用" class="headerlink" title="表单控件上的使用"></a><a href="https://cn.vuejs.org/v2/guide/forms.html" target="_blank" rel="noopener">表单控件上的使用</a></h2><p>适用于 <strong>&lt;input&gt; &lt;select&gt; &lt;textarea&gt;</strong></p>
+<ul>
+<li>&lt;input type=”text” &gt; &lt;textarea&gt; text 和 textarea 元素使用 value 属性和 input 事件</li>
+</ul>
+<ul>
+<li>&lt;input type=”checkbox”&gt; &lt;input type=”radio”&gt; 使用checked 属性和 change 事件</li>
+</ul>
+<ul>
+<li>&lt;select&gt; value 作为 prop 并将 change 作为事件</li>
+</ul>
+<br/>
+
+<h2 id="自定义组件上的使用"><a href="#自定义组件上的使用" class="headerlink" title="自定义组件上的使用"></a><a href="https://cn.vuejs.org/v2/guide/components-custom-events.html#%E5%B0%86%E5%8E%9F%E7%94%9F%E4%BA%8B%E4%BB%B6%E7%BB%91%E5%AE%9A%E5%88%B0%E7%BB%84%E4%BB%B6" target="_blank" rel="noopener">自定义组件上的使用</a></h2><blockquote>
+<p>一个组件上的 v-model 默认会利用名为 <strong>value</strong> 的 prop 和名为 <strong>input</strong> 的事件</p>
+</blockquote>
+<p><strong>model配置项目</strong>: model配置项可以操作来自组件上v-model的默认值，<strong>prop</strong>可以修改绑定的参数，<strong>event</strong>可以更改</p>
+<p>绑定的用于更新的方法名。</p>
+<br/>
+
+<p>如下面的select，当input值改变时，会寻找change方法，在当前子组件作用域中其实是没有这个方法的，但是通过</p>
+<p>model.event将默认的input方法改为了change方法，这个时候就能够调用此方法来进行更新。同样input此时默认获</p>
+<p>取checkbox，通过修改model.prop来达到目的</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 父组件</span></span><br><span class="line">&lt;base-checkbox v-model=<span class="string">"lovingVue"</span>&gt;<span class="xml"><span class="tag">&lt;/<span class="name">base-checkbox</span>&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 子组件</span></span><br><span class="line">Vue.component(<span class="string">'base-checkbox'</span>, &#123;</span><br><span class="line">  model: &#123;</span><br><span class="line">    prop: <span class="string">'checked'</span>,</span><br><span class="line">    event: <span class="string">'change'</span></span><br><span class="line">  &#125;,</span><br><span class="line">  props: &#123;</span><br><span class="line">    checked: <span class="built_in">Boolean</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="comment">// 下面将v-model="checked" 拆成了语法糖</span></span><br><span class="line">  template: <span class="string">`</span></span><br><span class="line"><span class="string">    &lt;input</span></span><br><span class="line"><span class="string">      type="checkbox"</span></span><br><span class="line"><span class="string">      v-bind:checked="checked"</span></span><br><span class="line"><span class="string">      v-on:change="$emit('change', $event.target.checked)"</span></span><br><span class="line"><span class="string">    &gt;</span></span><br><span class="line"><span class="string">  `</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<br/>
+
+<h2 id="listeners"><a href="#listeners" class="headerlink" title="$listeners"></a>$listeners</h2><blockquote>
+<p>包含了父作用域中的 (不含 .native 修饰器的) v-on 事件监听器。它可以通过 v-on=”$listeners” 传入内部组件——在创建更高层次的组件时非常有用。</p>
+</blockquote>
+<h3 id="用来实现跨组件双向绑定-以封装第三方组件为例"><a href="#用来实现跨组件双向绑定-以封装第三方组件为例" class="headerlink" title="用来实现跨组件双向绑定(以封装第三方组件为例)"></a><strong>用来实现跨组件双向绑定(以封装第三方组件为例)</strong></h3><p><strong><em>不使用$listeners</em></strong></p>
+<blockquote>
+<p>实现双向绑定时，只能通过绑定计算属性，通过计算属性的<strong>set</strong> 来主动触发this.$emit</p>
+</blockquote>
+<p><strong>如下有一组例子：</strong></p>
+<p>第三方组件<strong>v-input</strong>，简单的输入框v-model。<strong>v-transfrom-input</strong>是我们对其</p>
+<p>进行二次封装的组件，再供给页面中使用。这些逻辑都一块写在listeners.vue中。</p>
+<p><strong>第三方组件：v-input</strong></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">Vue.component(<span class="string">"v-input"</span>, &#123;</span><br><span class="line">    props: &#123;</span><br><span class="line">        value: <span class="built_in">String</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="comment">// 如下是v-model=“value”语法糖的拆解</span></span><br><span class="line">    template: <span class="string">`</span></span><br><span class="line"><span class="string">        &lt;input</span></span><br><span class="line"><span class="string">            :style="color"</span></span><br><span class="line"><span class="string">            type="text"</span></span><br><span class="line"><span class="string">            :bind="value"</span></span><br><span class="line"><span class="string">            v-on:input="$emit('input', $event.target.value)"</span></span><br><span class="line"><span class="string">        &gt;</span></span><br><span class="line"><span class="string">    `</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<br/>
+
+<p><strong>封装第三方组件：v-transform-input</strong></p>
+<p>想实现双向绑定值传递，需要绑定一个计算属性thisValue, 通过计算属性set来主动触发this.$emit(‘input’)，实现上层父组件中v-model绑定值的更新。</p>
+<p>主动触发是因为当前组件为<strong>非表单控件</strong>，并没有用户输入事件来主动触发更行上层input方法，所以要添加逻辑来主动进行触发。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">Vue.component(<span class="string">"v-transform-input"</span>, &#123;</span><br><span class="line">    props: &#123;</span><br><span class="line">        value: <span class="built_in">String</span></span><br><span class="line">    &#125;,</span><br><span class="line">    computed: &#123;</span><br><span class="line">        thisValue: &#123;</span><br><span class="line">            <span class="keyword">get</span>() &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">this</span>.value;</span><br><span class="line">            &#125;,</span><br><span class="line">            <span class="keyword">set</span>(value) &#123;</span><br><span class="line">                <span class="keyword">this</span>.$emit(<span class="string">"input"</span>, value); <span class="comment">// 主动触发上层父子间更改数据</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    template: <span class="string">`</span></span><br><span class="line"><span class="string">        &lt;v-input v-model="thisValue" @otherMethod="otherMethod"&gt;</span></span><br><span class="line"><span class="string">        &lt;/v-input&gt;</span></span><br><span class="line"><span class="string">    `</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<br/>
+
+<p><strong>listeners.vue使用封装好的组件</strong></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// template</span></span><br><span class="line">&lt;v-transform-inpu v-model=<span class="string">"value"</span>&gt;<span class="xml"><span class="tag">&lt;/<span class="name">v-transform-inpu</span>&gt;</span></span></span><br><span class="line"><span class="comment">// js</span></span><br><span class="line">data() &#123;</span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">        value: <span class="string">''</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<br/>
+
+<p><strong><em>使用$listeners</em></strong></p>
+<blockquote>
+<p>利用listeners将父组件作用域绑定的方法绑定此组件作用域的特点。</p>
+</blockquote>
+<p>因为$listeners将父组件上v-model绑定值的input方法都绑定到了v-transform中，所以第三方组件v-input</p>
+<p>中触发this.$emit(‘input’)就能在v-transform中找到$listeners绑定来的input方法，这个input方法其实就</p>
+<p>是最顶层v-model指令语法糖的默认input方法，更新的也是最顶层的那个value</p>
+<p><strong>封装第三方组件</strong></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Vue.component(<span class="string">"v-transform-input"</span>, &#123;</span><br><span class="line">    props: &#123;</span><br><span class="line">        value: <span class="built_in">String</span></span><br><span class="line">    &#125;,</span><br><span class="line">    template: <span class="string">`&lt;v-input :value="value" v-on="$listeners"&gt;&lt;/v-input&gt;`</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<h3 id="用来实现跨组件调用方法-以封装第三方组件为例"><a href="#用来实现跨组件调用方法-以封装第三方组件为例" class="headerlink" title="用来实现跨组件调用方法(以封装第三方组件为例)"></a><strong>用来实现跨组件调用方法(以封装第三方组件为例)</strong></h3><p><strong><em>在没有使用$listeners时</em></strong></p>
+<blockquote>
+<p>调用第三方组件提供的方法需要逐层添加事件绑定，来调用$emit</p>
+</blockquote>
+<p><strong>同样的组件：</strong></p>
+<p>第三方组件<strong>v-input</strong>，提供一个setColor方法改变按钮的字体颜色，供上层组件调用，</p>
+<p>然后我们对其进行二次封装的<strong>v-transfrom-input</strong>，再供给页面中使用</p>
+<p><strong>第三方组件：v-input</strong></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">Vue.component(<span class="string">"v-input"</span>, &#123;</span><br><span class="line">    props: &#123;</span><br><span class="line">        value: <span class="built_in">String</span></span><br><span class="line">    &#125;,</span><br><span class="line">    data() &#123;</span><br><span class="line">        <span class="keyword">return</span> &#123;</span><br><span class="line">            color: <span class="string">'color: red'</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    methods: &#123;</span><br><span class="line">        setColor() &#123;</span><br><span class="line">            <span class="keyword">this</span>.color = <span class="string">'color: green'</span>;</span><br><span class="line">            <span class="keyword">this</span>.$emit(<span class="string">'otherMethod'</span>, <span class="string">'green'</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    template: <span class="string">`</span></span><br><span class="line"><span class="string">        &lt;div&gt;</span></span><br><span class="line"><span class="string">            &lt;input</span></span><br><span class="line"><span class="string">                :style="color"</span></span><br><span class="line"><span class="string">                type="text"</span></span><br><span class="line"><span class="string">                v-model="value"</span></span><br><span class="line"><span class="string">            &gt;</span></span><br><span class="line"><span class="string">            &lt;button @click="setColor"&gt;触发第三方组件方法&lt;/button&gt;</span></span><br><span class="line"><span class="string">        &lt;/div&gt;</span></span><br><span class="line"><span class="string">    `</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p><strong>封装第三方组件：v-transfrom-input</strong></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">Vue.component(<span class="string">"v-transform-input"</span>, &#123;</span><br><span class="line">    methods: &#123;</span><br><span class="line">        otherMethod(color) &#123;</span><br><span class="line">            <span class="comment">// 通过传统的$emit父子组件方法来调用</span></span><br><span class="line">            <span class="keyword">this</span>.$emit(<span class="string">'otherMethod'</span>, color);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    template: <span class="string">`</span></span><br><span class="line"><span class="string">        &lt;v-input @otherMethod="otherMethod"&gt;</span></span><br><span class="line"><span class="string">        &lt;/v-input&gt;</span></span><br><span class="line"><span class="string">    `</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p><strong>使用封装好的组件: listeners.vue</strong></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// template</span></span><br><span class="line">&lt;v-transform-inpu @otherMethod=<span class="string">"otherMethod"</span>&gt;<span class="xml"><span class="tag">&lt;/<span class="name">v-transform-inpu</span>&gt;</span></span></span><br><span class="line"><span class="comment">// js</span></span><br><span class="line">methods: &#123;</span><br><span class="line">    otherMethod(color) &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'第三方组件触发'</span>, color);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<br/>
+
+<p><strong><em>使用$listeners</em></strong></p>
+<blockquote>
+<p>同样利用listeners将父组件作用域绑定的方法绑定此组件作用域的特点。</p>
+</blockquote>
+<p>上层父组件的otherMethod方法也合并到了当前组件v-transfrom-input的作用域中，v-inputsetColr中调</p>
+<p>用this.$emit(‘otherMethod’), 也就能在v-transfrom-input上找到对应方法。</p>
+<p><strong>改写封装的第三方组件</strong></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Vue.component(<span class="string">"v-transform-input"</span>, &#123;</span><br><span class="line">    template: <span class="string">`&lt;v-input v-on="$listeners"&gt;&lt;/v-input&gt;`</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<h3 id="当父组件双向绑定值没有初始化注册"><a href="#当父组件双向绑定值没有初始化注册" class="headerlink" title="当父组件双向绑定值没有初始化注册"></a>当父组件双向绑定值没有初始化注册</h3><p>还是那个例子，不做初始化双向绑定就会失效。可能在vue实例第一次渲染时候，没有遍历到这个值，就不会生成相应的obsever。<br>有待继续发掘。</p>
+<p><strong>使用封装好的组件: listeners.vue</strong></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// template</span></span><br><span class="line">&lt;v-transform-input v-model=<span class="string">"value"</span> @otherMethod=<span class="string">"otherMethod"</span>&gt;<span class="xml"><span class="tag">&lt;/<span class="name">v-transform-input</span>&gt;</span></span></span><br><span class="line"><span class="comment">// js</span></span><br><span class="line">data() &#123;</span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">        <span class="comment">// value: '' // 这里不做初始化处理。</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;,</span><br><span class="line">methods: &#123;</span><br><span class="line">    otherMethod(color) &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'第三方组件触发'</span>, color);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="attrs"><a href="#attrs" class="headerlink" title="$attrs"></a>$attrs</h2><blockquote>
+<p>包含了父作用域中不作为 prop 被识别 (且获取) 的特性绑定 (class 和 style 除外)。当一个组件没有声明任何 prop 时，这里会包含所有父作用域的绑定 (class 和 style 除外)，并且可以通过v-bind=”$attrs” 传入内部组件——在创建高级别的组件时非常有用。</p>
+</blockquote>
+<h3 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h3><p>孙组件</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// template</span></span><br><span class="line">&lt;template&gt;</span><br><span class="line">    &lt;p :style=<span class="string">"getColor"</span>&gt;我是孙组件&lt;<span class="regexp">/p&gt;</span></span><br><span class="line"><span class="regexp">&lt;/</span>template&gt;</span><br><span class="line"><span class="comment">// script</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span>&#123;</span><br><span class="line">    <span class="comment">// 如果在不在props中声明color 那么这个数据，请使用this.$arrts.color</span></span><br><span class="line">    <span class="comment">// 如果声明，那么this.$props上就会有color</span></span><br><span class="line">    props: &#123;</span><br><span class="line">        newColor: <span class="built_in">String</span></span><br><span class="line">    &#125;,</span><br><span class="line">    computed: &#123;</span><br><span class="line">        getColor() &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="string">`color: <span class="subst">$&#123;<span class="keyword">this</span>.newColor || <span class="string">"green"</span>&#125;</span>`</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>子组件</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// template</span></span><br><span class="line">&lt;grand-son v-bind=<span class="string">"$attrs"</span>&gt;<span class="xml"><span class="tag">&lt;/<span class="name">grand-son</span>&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">// script</span></span><br><span class="line"><span class="keyword">import</span> GrandSon <span class="keyword">from</span> <span class="string">'./GrandSon'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">    ...,</span><br><span class="line">    components: &#123;</span><br><span class="line">        GrandSon</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">&lt;&gt;</span><br></pre></td></tr></table></figure>
+
+<p>父组件</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// template</span></span><br><span class="line"><span class="comment">// style class 不会在$attrs上</span></span><br><span class="line">&lt;son newColor=<span class="string">"red"</span> custom=<span class="string">"febcat"</span> style=<span class="string">"font-size: 16px;"</span> <span class="class"><span class="keyword">class</span></span>=<span class="string">"son"</span>&gt;<span class="xml"><span class="tag">&lt;/<span class="name">son</span>&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">// script</span></span><br><span class="line"><span class="keyword">import</span> Son <span class="keyword">from</span> <span class="string">'./Son'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">    ...,</span><br><span class="line">    components: &#123;</span><br><span class="line">        Son</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// css</span></span><br><span class="line">.son&#123;</span><br><span class="line">    font-weight: <span class="number">500</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>查看dom如下</p>
+<p><img src="/intro/attrs.jpg" alt="$attrs"></p>
+<br/>
+
+<h3 id="inheritAttrs禁用特性继承"><a href="#inheritAttrs禁用特性继承" class="headerlink" title="inheritAttrs禁用特性继承"></a>inheritAttrs禁用特性继承</h3><ul>
+<li>默认值为true</li>
+</ul>
+<ul>
+<li>如果你不希望组件的根元素继承特性，你可以在组件的选项中设置 inheritAttrs: false</li>
+</ul>
+<ul>
+<li>不会影响 style 和 class 的绑定。</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Vue.component(<span class="string">'my-component'</span>, &#123;</span><br><span class="line">  inheritAttrs: <span class="literal">false</span>,</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p><strong>v-model表单控件</strong></p>
+<ul>
+<li>通常默认绑定value，数据更新方法为input</li>
+</ul>
+<ul>
+<li>checkbox, radio 使用为checked，更新方法为change</li>
+</ul>
+<ul>
+<li>select 默认绑定value, 数据更新为change</li>
+</ul>
+<hr>
+<p><strong>v-model非表单控件作为中间层组件（如封装第三方组件)</strong></p>
+<ul>
+<li><p>未使用$listeners情况下需要通过v-model双向绑定计算属性，数据更新</p>
+<p>触发set方法，在set方法中进而主动触发this.$emit(‘input’)</p>
+</li>
+</ul>
+<ul>
+<li>使用$listeners情况下，仅需配合$attrs就能达到目的，v-model也不必写</li>
+</ul>
+<hr>
+<p><strong>双向绑定值初始化</strong></p>
+<ul>
+<li>不管任何形式的值，只要在data中没有初始化，那么双向绑定就不会成功</li>
+</ul>
+<br/>
+
+<h1 id="讨论"><a href="#讨论" class="headerlink" title="讨论"></a>讨论</h1><ul>
+<li>为什么只有data初始化的值，才能真正做到双向绑定视图更新？</li>
+</ul>
+<br/>
+<br/>
+<br/>
+<br/>
+
+    </article>
+    <!-- license  -->
+    
+        <div class="license-wrapper">
+            <p>原文作者：<a href="https://febcat.github.io">Febcat</a>
+            <p>原文链接：<a href="https://febcat.github.io/2019/11/15/vmodel/">https://febcat.github.io/2019/11/15/vmodel/</a>
+            <p>发表日期：<a href="https://febcat.github.io/2019/11/15/vmodel/">November 15th 2019, 2:17:09 pm</a>
+            <p>更新日期：<a href="https://febcat.github.io/2019/11/15/vmodel/">September 19th 2020, 3:36:18 pm</a>
+            <p>版权声明：本文采用<a rel="license noopener" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
+        </div>
+    
+    <!-- paginator  -->
+    <ul class="post-paginator">
+        <li class="next">
+            
+                <div class="nextSlogan">Next Post</div>
+                <a href= "/2019/12/27/watch/" title= "watch">
+                    <div class="nextTitle">watch</div>
+                </a>
+            
+        </li>
+        <li class="previous">
+            
+                <div class="prevSlogan">Previous Post</div>
+                <a href= "/2019/11/01/floatingNumber/" title= "浮点数计算">
+                    <div class="prevTitle">浮点数计算</div>
+                </a>
+            
+        </li>
+    </ul>
+    <!-- 评论插件 -->
+    <!-- 来必力City版安装代码 -->
+
+<!-- City版安装代码已完成 -->
+    
+    
+    <!-- partial('_partial/comment/changyan') -->
+    <!--PC版-->
+
+
+    
+    
+
+    <!-- 评论 -->
+</main>
+            <!-- profile -->
+            
+        </div>
+        <footer class="footer footer-unloaded">
+    <!-- social  -->
+    
+    <div class="social">
+        
+    
+        
+            
+                <a href="mailto:12345@qq.com" target="_blank" rel="noopener" class="iconfont-archer email" title=email ></a>
+            
+        
+    
+        
+            
+                <a href="//github.com/fi3ework" class="iconfont-archer github" target="_blank" title=github></a>
+            
+        
+    
+        
+            
+                <span class="iconfont-archer wechat" title=wechat>
+                  
+                  <img class="profile-qr" src="/assets/example_qr.png" />
+                </span>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+    </div>
+    
+    <!-- powered by Hexo  -->
+    <div class="copyright">
+        <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank">Archer</a></span>
+    </div>
+    <!-- 不蒜子  -->
+    
+    <div class="busuanzi-container">
+    
+     
+    <span id="busuanzi_container_site_pv">PV: <span id="busuanzi_value_site_pv"></span> :)</span>
+    
+    </div>
+    
+</footer>
+    </div>
+    <!-- toc -->
+    
+    <div class="toc-wrapper" style=
+    
+
+
+
+
+
+
+
+top:50vh;
+
+    >
+        <div class="toc-catalog">
+            <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+        </div>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#v-model"><span class="toc-number">1.</span> <span class="toc-text">v-model</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#表单控件上的使用"><span class="toc-number">1.1.</span> <span class="toc-text">表单控件上的使用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#自定义组件上的使用"><span class="toc-number">1.2.</span> <span class="toc-text">自定义组件上的使用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#listeners"><span class="toc-number">1.3.</span> <span class="toc-text">$listeners</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#用来实现跨组件双向绑定-以封装第三方组件为例"><span class="toc-number">1.3.1.</span> <span class="toc-text">用来实现跨组件双向绑定(以封装第三方组件为例)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#用来实现跨组件调用方法-以封装第三方组件为例"><span class="toc-number">1.3.2.</span> <span class="toc-text">用来实现跨组件调用方法(以封装第三方组件为例)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#当父组件双向绑定值没有初始化注册"><span class="toc-number">1.3.3.</span> <span class="toc-text">当父组件双向绑定值没有初始化注册</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#attrs"><span class="toc-number">1.4.</span> <span class="toc-text">$attrs</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#使用"><span class="toc-number">1.4.1.</span> <span class="toc-text">使用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#inheritAttrs禁用特性继承"><span class="toc-number">1.4.2.</span> <span class="toc-text">inheritAttrs禁用特性继承</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#小结"><span class="toc-number">1.5.</span> <span class="toc-text">小结</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#讨论"><span class="toc-number">2.</span> <span class="toc-text">讨论</span></a></li></ol>
+    </div>
+    
+    <div class="back-top iconfont-archer">&#xe639;</div>
+    <div class="sidebar sidebar-hide">
+    <ul class="sidebar-tabs sidebar-tabs-active-0">
+        <li class="sidebar-tab-archives"><span class="iconfont-archer">&#xe67d;</span><span class="tab-name">Archive</span></li>
+        <li class="sidebar-tab-tags"><span class="iconfont-archer">&#xe61b;</span><span class="tab-name">Tag</span></li>
+        <li class="sidebar-tab-categories"><span class="iconfont-archer">&#xe666;</span><span class="tab-name">Cate</span></li>
+    </ul>
+    <div class="sidebar-content sidebar-content-show-archive">
+          <div class="sidebar-panel-archives">
+    <!-- 在ejs中将archive按照时间排序 -->
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="total-and-search">
+        <div class="total-archive">
+        Total : 5
+        </div>
+        <!-- search  -->
+        
+    </div>
+    
+    <div class="post-archive">
+    
+    
+    
+    
+    <div class="archive-year"> 2020 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/17</span><a class="archive-post-title" href= "/2020/09/17/webpack/" >webpack</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/07</span><a class="archive-post-title" href= "/2020/09/07/reactSSR/" >React同构</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2019 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/27</span><a class="archive-post-title" href= "/2019/12/27/watch/" >watch</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/15</span><a class="archive-post-title" href= "/2019/11/15/vmodel/" >v-model $attrs $listeners</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/01</span><a class="archive-post-title" href= "/2019/11/01/floatingNumber/" >浮点数计算</a>
+        </li>
+    
+    </div>
+  </div>
+        <div class="sidebar-panel-tags">
+    <div class="sidebar-tags-name">
+    
+        <span class="sidebar-tag-name" data-tags="javascript"><span class="iconfont-archer">&#xe606;</span>javascript</span>
+    
+        <span class="sidebar-tag-name" data-tags="React"><span class="iconfont-archer">&#xe606;</span>React</span>
+    
+        <span class="sidebar-tag-name" data-tags="SSR"><span class="iconfont-archer">&#xe606;</span>SSR</span>
+    
+        <span class="sidebar-tag-name" data-tags="Vue"><span class="iconfont-archer">&#xe606;</span>Vue</span>
+    
+        <span class="sidebar-tag-name" data-tags="webpack"><span class="iconfont-archer">&#xe606;</span>webpack</span>
+    
+        <span class="sidebar-tag-name" data-tags="settings"><span class="iconfont-archer">&#xe606;</span>settings</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
+    <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
+    缺失模块。<br/>
+    1、请确保node版本大于6.2<br/>
+    2、在博客根目录（注意不是archer根目录）执行以下命令：<br/>
+    <span style="color: #f75357; font-size: 1rem; line-height: 2rem;">npm i hexo-generator-json-content --save</span><br/>
+    3、在根目录_config.yml里添加配置：
+    <pre style="color: #787878; font-size: 0.6rem;">
+jsonContent:
+  meta: false
+  pages: false
+  posts:
+    title: true
+    date: true
+    path: true
+    text: false
+    raw: false
+    content: false
+    slug: false
+    updated: false
+    comments: false
+    link: false
+    permalink: false
+    excerpt: false
+    categories: true
+    tags: true</pre>
+    </div> 
+    <div class="sidebar-tags-list"></div>
+</div>
+        <div class="sidebar-panel-categories">
+    <div class="sidebar-categories-name">
+    
+        <span class="sidebar-category-name" data-categories="web"><span class="iconfont-archer">&#xe60a;</span>web</span>
+    
+        <span class="sidebar-category-name" data-categories="server"><span class="iconfont-archer">&#xe60a;</span>server</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
+    <div class="sidebar-categories-list"></div>
+</div>
+    </div>
+</div> 
+    <script>
+    var siteMeta = {
+        root: "/",
+        author: "Febcat"
+    }
+</script>
+    <!-- CDN failover -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <script type="text/javascript">
+        if (typeof window.$ === 'undefined')
+        {
+            console.warn('jquery load from jsdelivr failed, will load local script')
+            document.write('<script src="/lib/jquery.min.js">\x3C/script>')
+        }
+    </script>
+    <script src="/scripts/main.js"></script>
+    <!-- algolia -->
+    
+    <!-- busuanzi  -->
+    
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+    <!-- CNZZ  -->
+    
+    </div>
+    <!-- async load share.js -->
+    
+        <script src="/scripts/share.js" async></script>
+    
+    <script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"right","width":220,"height":350},"mobile":{"show":false},"react":{"opacity":0.7}});</script></body>
+</html>
+
+
