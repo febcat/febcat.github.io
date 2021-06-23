@@ -216,7 +216,7 @@
     
     <!-- 谷歌统计  -->
     
-</head>
+<meta name="generator" content="Hexo 4.2.1"></head>
 
     
         <body class="post-body">
@@ -420,7 +420,7 @@ height:50vh;
         <h2 id="watch-新旧值一致"><a href="#watch-新旧值一致" class="headerlink" title="watch 新旧值一致"></a>watch 新旧值一致</h2><blockquote>
 <p><a href="https://codesandbox.io/s/watch-save-value-u1i6y" target="_blank" rel="noopener">Demo</a></p>
 </blockquote>
-<h3 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div <span class="class"><span class="keyword">class</span></span>=<span class="string">"watch"</span>&gt;</span><br><span class="line">    &lt;span&gt;params.name:<span class="xml"><span class="tag">&lt;/<span class="name">span</span>&gt;</span></span></span><br><span class="line">    &lt;input type=<span class="string">"text"</span> v-model=<span class="string">"params.name"</span>&gt;</span><br><span class="line">  &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">&lt;/</span>template&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div <span class="class"><span class="keyword">class</span></span>=<span class="string">"watch"</span>&gt;</span><br><span class="line">    &lt;span&gt;params.name:&lt;<span class="regexp">/span&gt;</span></span><br><span class="line"><span class="regexp">    &lt;input type="text" v-model="params.name"&gt;</span></span><br><span class="line"><span class="regexp">  &lt;/</span>div&gt;</span><br><span class="line">&lt;<span class="regexp">/template&gt;</span></span><br></pre></td></tr></table></figure>
 
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">data() &#123;</span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">      params: &#123;&#125;</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;,</span><br><span class="line">  watch: &#123;</span><br><span class="line">    params(newVal, oldVal) &#123;</span><br><span class="line">      <span class="built_in">console</span>.log(<span class="string">"普通方式oldVal"</span>, oldVal);</span><br><span class="line">      <span class="built_in">console</span>.log(<span class="string">"普通方式newVal"</span>, newVal);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
 <p>如上代码，input输入2，打印结果只打印一次且新旧值相等</p>
@@ -521,7 +521,7 @@ height:50vh;
     
         
             
-                <a href="mailto:1368803007@qq.com" target="_blank" rel="noopener" class="iconfont-archer email" title=email ></a>
+                <a href="mailto:1368803007@qq.com" class="iconfont-archer email" title=email ></a>
             
         
     
@@ -664,9 +664,18 @@ top:50vh;
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 5
+        Total : 6
         </div>
         <!-- search  -->
         
@@ -680,6 +689,20 @@ top:50vh;
     
     
     
+    
+    <div class="archive-year"> 2021 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/23</span><a class="archive-post-title" href= "/2021/06/23/bugfix_regexp/" >正则表达式的兼容问题</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
     
     <div class="archive-year"> 2020 </div>
     <ul class="year-list">
@@ -767,6 +790,8 @@ jsonContent:
 </div>
         <div class="sidebar-panel-categories">
     <div class="sidebar-categories-name">
+    
+        <span class="sidebar-category-name" data-categories="bugfix"><span class="iconfont-archer">&#xe60a;</span>bugfix</span>
     
         <span class="sidebar-category-name" data-categories="web"><span class="iconfont-archer">&#xe60a;</span>web</span>
     

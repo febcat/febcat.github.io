@@ -362,64 +362,28 @@
     
     
     <article class="index-post">
-        <a class="abstract-title" href = "/2020/09/17/webpack/" >
+        <a class="abstract-title" href = "/2021/06/23/bugfix_regexp/" >
             
-                <span>webpack</span>
+                <span>正则表达式的兼容问题</span>
         </a>
         <div class="abstract-content">
-            webpack 常用loader &amp; plugin说明：plugin相当于生命周期一样，在webpack运行到某个时刻的时候做一些事情。
-汇总12345678910111213141516171819202122232425262728&#123;  "name": "webpack-test", // 项目名称  "version": "1.0.0", // 当前版本  "description": "", // 项目描述  "main": "index.js", // 需要暴露出去的入口  "private": true, // 是否私有 是否发布到npm上  "script...
+            RegExp Lookbehind 反向定言 兼容
+ES9 RegExp Lookbehind Assertions
+
+问题描述修改公共方法以用支持省略小数位多余的零，这里使用的是正则。上线后反馈用户使用safari浏览器打不开页面。
+正则方法如下
+123456789101112131415161718import NP from 'number-precision';function formatPercent(num, type: FormatPercentType = 'multiply', decimal = 2) &#123;    if (num === 0 || num =...
         </div>
         <div class="abstract-post-meta">
             <!-- date  -->
             <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/09/17</span>
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2021/06/23</span>
             </div>
             <!-- tags  -->
             
             <div class= abstract-tags >
     
         <a class="post-tag" href="javascript:void(0);" data-tags = "javascript">javascript</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "webpack">webpack</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "settings">settings</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2020/09/07/reactSSR/" >
-            
-                <span>React同构</span>
-        </a>
-        <div class="abstract-content">
-            技术点汇总注意：
-
-如果用服务器端渲染，一定要让服务器端塞给 React 组件的数据和浏览器端一致。
-
-package.json
-1234567891011121314151617181920212223242526272829303132&#123;    ...    "devDependencies": &#123;    "isomorphic-style-loader": "^5.1.0", // 服务端处理css的插件    "nodemon": "^2.0.4", // 不用每次都重新node 监听文件改动自己重新打包    "npm-run-all": "^4.1.5",...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/09/07</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "React">React</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "SSR">SSR</a>
     
 </div>
             
