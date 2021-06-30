@@ -23,7 +23,7 @@
     <meta name="description" content="">
     <meta http-equiv="Cache-control" content="no-cache">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
-    <title>浮点数计算 · Febcat</title>
+    <title>Febcat</title>
     <style type="text/css">
     @font-face {
         font-family: 'Oswald-Regular';
@@ -219,23 +219,12 @@
 <meta name="generator" content="Hexo 4.2.1"></head>
 
     
-        <body class="post-body">
-    
     
 <header class="header">
 
     <div class="read-progress"></div>
     <div class="header-sidebar-menu">&#xe775;</div>
     <!-- post页的toggle banner  -->
-    
-    <div class="banner">
-            <div class="blog-title">
-                <a href="/" >biu biu biu coding</a>
-            </div>
-            <div class="post-title">
-                <a href="#" class="post-name">浮点数计算</a>
-            </div>
-    </div>
     
     <a class="home-link" href=/>biu biu biu coding</a>
 </header>
@@ -247,74 +236,24 @@
 
 
 
-
-height:50vh;
 ">
     
     <!-- 主页  -->
-    
-    
-    <!-- 404页  -->
             
     <div class="site-intro-placeholder"></div>
-    <div class="site-intro-img" style="background-image: url(/intro/post-bg.jpg)"></div>
+    <div class="site-intro-img" style="background-image: url(/)"></div>
     <div class="site-intro-meta">
         <!-- 标题  -->
         <h1 class="intro-title">
             <!-- 主页  -->
-            
-            浮点数计算
-            <!-- 404 -->
             
         </h1>
         <!-- 副标题 -->
         <p class="intro-subtitle">
             <!-- 主页副标题  -->
             
-            
-            <!-- 404 -->
-            
         </p>
         <!-- 文章页meta -->
-        
-            <div class="post-intros">
-                <!-- 文章页标签  -->
-                
-                    <div class= post-intro-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "javascript">javascript</a>
-    
-</div>
-                
-                
-                    <div class="post-intro-read">
-                        <span>字数统计: <span class="post-count word-count">433</span>阅读时长: <span class="post-count reading-time">1 min</span></span>
-                    </div>
-                
-                <div class="post-intro-meta">
-                    <span class="post-intro-calander iconfont-archer">&#xe676;</span>
-                    <span class="post-intro-time">2019/11/01</span>
-                    
-                    <span id="busuanzi_container_page_pv" class="busuanzi-pv">
-                        <span class="iconfont-archer">&#xe602;</span>
-                        <span id="busuanzi_value_page_pv"></span>
-                    </span>
-                    
-                    <span class="shareWrapper">
-                        <span class="iconfont-archer shareIcon">&#xe71d;</span>
-                        <span class="shareText">Share</span>
-                        <ul class="shareList">
-                            <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
-                                <div class="share-qrcode"></div>
-                            </li>
-                            <li class="iconfont-archer" data-type="weibo">&#xe619;</li>
-                            <li class="iconfont-archer" data-type="qzone">&#xe62e;</li>
-                            <li class="iconfont-archer" data-type="twitter">&#xe634;</li>
-                            <li class="iconfont-archer" data-type="facebook">&#xe67a;</li>
-                        </ul>
-                    </span>
-                </div>
-            </div>
         
     </div>
 </div>
@@ -415,103 +354,44 @@ height:50vh;
 </script>
         <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
         <div class="container container-unloaded">
-            <main class="main post-page">
-    <article class="article-entry">
-        <h2 id="toPrecision-vs-toFixed"><a href="#toPrecision-vs-toFixed" class="headerlink" title="toPrecision vs toFixed"></a>toPrecision vs toFixed</h2><blockquote>
-<p><a href="https://github.com/camsong/blog/issues/9" target="_blank" rel="noopener">参考</a></p>
-</blockquote>
-<blockquote>
-<p>在计算的中间过程不要使用, 只用于最终结果。</p>
-</blockquote>
-<p>数据处理时，这两个函数很容易混淆。它们的共同点是把数字转成字符串供展示使用。</p>
-<h3 id="不同点"><a href="#不同点" class="headerlink" title="不同点"></a>不同点</h3><ul>
-<li>toPrecision 是处理精度，精度是从左至右第一个不为0的数开始数起。</li>
-<li>toFixed 是小数点后指定位数取整，从小数点开始数起。</li>
-</ul>
-<h3 id="相同点"><a href="#相同点" class="headerlink" title="相同点"></a>相同点</h3><p>&nbsp;&nbsp;&nbsp;&nbsp;两者都能把数字转成字符串供展示使用，同时对多余数字做凑整处理。</p>
-<h3 id="两者的bug"><a href="#两者的bug" class="headerlink" title="两者的bug"></a>两者的bug</h3><ul>
-<li><p>toFixed<br>有的人用 toFixed 来做四舍五入，但一定要知道它是有 Bug 的。<br>如：1.005.toFixed(2) 返回的是 1.00 而不是 1.01。</p>
-<p><strong>原因</strong>： 1.005 实际对应的数字是 1.00499999999999989，在四舍五入时全部被舍去！</p>
-<p><strong>解法</strong>：使用专业的四舍五入函数 Math.round() 来处理。但 Math.round(1.005 * 100) / 100 还是不行，因为 1.005 * 100 = 100.49999999999999。还需要把乘法和除法精度误差都解决后再使用 Math.round。</p>
-</li>
-</ul>
-<ul>
-<li>toPrecision<br>在保留15位的时候就有偏差，但是一般不会保留15位<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(<span class="number">12.000000000999999</span>).toPrecision() <span class="comment">// 12.000000000999998</span></span><br></pre></td></tr></table></figure>
-
-</li>
-</ul>
-<br/>
-<br/>
-
-<hr>
-<br/>
-<br/>
-
-<h2 id="开发中解决方案"><a href="#开发中解决方案" class="headerlink" title="开发中解决方案"></a>开发中解决方案</h2><h3 id="数据展示"><a href="#数据展示" class="headerlink" title="数据展示"></a>数据展示</h3><p>  1 保留位数<br>  <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 12能大部分解决0001和0009的问题。12 = 整数 + 小数</span></span><br><span class="line"><span class="built_in">parseFloat</span>(<span class="number">1.4000000000000001</span>.toPrecision(<span class="number">12</span>)) === <span class="number">1.4</span>  <span class="comment">// True</span></span><br></pre></td></tr></table></figure></p>
-<p>  2 舍取不必要的零<br>  <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(<span class="number">12.1200</span>).toPrecision() <span class="comment">// 12.12</span></span><br></pre></td></tr></table></figure></p>
-<h3 id="数据运算类"><a href="#数据运算类" class="headerlink" title="数据运算类"></a>数据运算类</h3><p>  对于运算类操作，如 +-*/，就不能使用 toPrecision 了。正确的做法是把小数转成整数后再运算。<br>  解决精确计算可以使用bugnumber.js</p>
-<h3 id="其他方法"><a href="#其他方法" class="headerlink" title="其他方法"></a>其他方法</h3><p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toLocaleString" target="_blank" rel="noopener">toLocaleString()</a> 里面可以配置options 但是尴尬的是最低支持ie11 而且只能四舍五入算法</p>
-<br/>
-<br/>
-<br/>
-<br/>
-
-    </article>
-    <!-- license  -->
+            <main class="main index-page">
     
-        <div class="license-wrapper">
-            <p>原文作者：<a href="https://febcat.github.io">Febcat</a>
-            <p>原文链接：<a href="https://febcat.github.io/2019/11/01/floatingNumber/">https://febcat.github.io/2019/11/01/floatingNumber/</a>
-            <p>发表日期：<a href="https://febcat.github.io/2019/11/01/floatingNumber/">November 1st 2019, 8:33:00 pm</a>
-            <p>更新日期：<a href="https://febcat.github.io/2019/11/01/floatingNumber/">September 19th 2020, 3:36:18 pm</a>
-            <p>版权声明：本文采用<a rel="license noopener" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href = "/2021/06/30/aboutGit/" >
+            
+                <span>Git问题处理</span>
+        </a>
+        <div class="abstract-content">
+            Git 问题集中模版修改文件大小写导致的问题问题描述如果修改同一个文件名，仅仅是英文大小写修改，那么git可能无法获悉这个修改。
+解决途径
+预先设置大小写敏感12// true 为忽略大小写git config core.ignorecase false
+对已经造成大小写文件的问题12345// 将文件夹的名称从旧文件夹更改为新文件夹git mv oldFile newFile// 如果新文件夹已存在于您的存储库中，并且您想覆盖它并使用： -forcegit mv -f oldFile newFile
+
+
         </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2021/06/30</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "git">git</a>
+    
+</div>
+            
+        </div>
+    </article>
     
     <!-- paginator  -->
-    <ul class="post-paginator">
-        <li class="next">
-            
-                <div class="nextSlogan">Next Post</div>
-                <a href= "/2019/11/15/vmodel/" title= "v-model $attrs $listeners">
-                    <div class="nextTitle">v-model $attrs $listeners</div>
-                </a>
-            
-        </li>
-        <li class="previous">
-            
-        </li>
-    </ul>
-    <!-- 评论插件 -->
-    <!-- 来必力City版安装代码 -->
-
-<!-- City版安装代码已完成 -->
     
-    
-<div id="container"></div>
-<link rel="stylesheet" href="https://billts.site/extra_css/gitment.css">
-<script src="https://billts.site/js/gitment.js"></script>
-<script>
-    var gitment = new Gitment({
-        // id: "浮点数计算", // 可选。默认为 location.href
-        owner: 'febcat',
-        repo: 'blob-comments',
-        oauth: {
-            client_id: '6382e15776fa1105dfea',
-            client_secret: 'f01ee3c3c0d81e5b9c79c6a4fee13a5aac6de908',
-        },
-    })
-    gitment.render('container')
-
-</script>
-
-    <!-- partial('_partial/comment/changyan') -->
-    <!--PC版-->
-
-
-    
-    
-
-    <!-- 评论 -->
 </main>
             <!-- profile -->
             
@@ -589,24 +469,6 @@ height:50vh;
 </footer>
     </div>
     <!-- toc -->
-    
-    <div class="toc-wrapper" style=
-    
-
-
-
-
-
-
-
-top:50vh;
-
-    >
-        <div class="toc-catalog">
-            <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
-        </div>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#toPrecision-vs-toFixed"><span class="toc-number">1.</span> <span class="toc-text">toPrecision vs toFixed</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#不同点"><span class="toc-number">1.1.</span> <span class="toc-text">不同点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#相同点"><span class="toc-number">1.2.</span> <span class="toc-text">相同点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#两者的bug"><span class="toc-number">1.3.</span> <span class="toc-text">两者的bug</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#开发中解决方案"><span class="toc-number">2.</span> <span class="toc-text">开发中解决方案</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#数据展示"><span class="toc-number">2.1.</span> <span class="toc-text">数据展示</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#数据运算类"><span class="toc-number">2.2.</span> <span class="toc-text">数据运算类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#其他方法"><span class="toc-number">2.3.</span> <span class="toc-text">其他方法</span></a></li></ol></li></ol>
-    </div>
     
     <div class="back-top iconfont-archer">&#xe639;</div>
     <div class="sidebar sidebar-hide">
@@ -869,8 +731,6 @@ jsonContent:
     
     </div>
     <!-- async load share.js -->
-    
-        <script src="/scripts/share.js" async></script>
     
     <script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"right","width":220,"height":350},"mobile":{"show":false},"react":{"opacity":0.7}});</script></body>
 </html>
